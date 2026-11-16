@@ -1,0 +1,2 @@
+# denodo
+Integração com VDP
