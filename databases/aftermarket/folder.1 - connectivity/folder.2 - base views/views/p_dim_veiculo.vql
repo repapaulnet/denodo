@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE VIEW p_dim_veiculo FOLDER = '/1 - connectivity/2 - base views' AS SELECT dim_veiculo.sk_veiculo AS sk_veiculo, dim_veiculo.montadora AS montadora, dim_veiculo.modelo AS modelo, dim_veiculo.ano_modelo_inicio AS ano_modelo_inicio, dim_veiculo.ano_modelo_fim AS ano_modelo_fim, dim_veiculo.tipo_veiculo AS tipo_veiculo, dim_veiculo.segmento_veiculo AS segmento_veiculo, enrich_ai((((('Baseado seguintes campos de montadora, modelo, entre 2016 e 2025, fornecer quantos veículos foram emplacados em todo o Brasil. Resposta curta '||' montadora: ')||montadora)||' modelo: ')||modelo)) AS detalhe_ai FROM dim_veiculo;
+
+ALTER VIEW p_dim_veiculo
+ LAYOUT (dim_veiculo = [20, 20, 200, 200]);
+

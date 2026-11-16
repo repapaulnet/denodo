@@ -1,0 +1,166 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC vw_vendas_desnormalizada
+    FOLDER = '/1 - connectivity/2 - base views'
+    DESCRIPTION='VIEW' 
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.vw_vendas_desnormalizada.CATALOGNAME}' 
+    RELATIONNAME='vw_vendas_desnormalizada' 
+    OUTPUTSCHEMA (
+        numero_pedido = 'numero_pedido' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        numero_item = 'numero_item' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        data_completa = 'data_completa' :'java.time.LocalDate' (OPT) (sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='91', sourcetypename='DATE')  NOT NULL SORTABLE,
+        ano = 'ano' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        trimestre = 'trimestre' :'java.lang.Byte' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='-6', sourcetypename='TINYINT')  NOT NULL SORTABLE,
+        mes = 'mes' :'java.lang.Byte' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='-6', sourcetypename='TINYINT')  NOT NULL SORTABLE,
+        nome_mes = 'nome_mes' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_dia_semana = 'nome_dia_semana' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        is_fim_de_semana = 'is_fim_de_semana' :'java.lang.Boolean' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='16', sourcetypename='BOOLEAN')  NOT NULL NOT SORTABLE,
+        is_feriado = 'is_feriado' :'java.lang.Boolean' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='16', sourcetypename='BOOLEAN')  NOT NULL NOT SORTABLE,
+        sku = 'sku' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_produto = 'nome_produto' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='150', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        categoria_produto = 'categoria_produto' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        subcategoria_produto = 'subcategoria_produto' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        marca_produto = 'marca_produto' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        linha_produto = 'linha_produto' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        unidade_medida = 'unidade_medida' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        codigo_cliente = 'codigo_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_cliente = 'nome_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='150', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        tipo_pessoa = 'tipo_pessoa' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='2', description='', sourcetypeid='1', sourcetypename='CHAR')  NOT NULL SORTABLE,
+        segmento_cliente = 'segmento_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='40', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        cidade_cliente = 'cidade_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='80', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        estado_cliente = 'estado_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='2', description='', sourcetypeid='1', sourcetypename='CHAR')  NOT NULL SORTABLE,
+        regiao_cliente = 'regiao_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        codigo_loja = 'codigo_loja' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_loja = 'nome_loja' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='120', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        tipo_canal = 'tipo_canal' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        cidade_loja = 'cidade_loja' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='80', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        estado_loja = 'estado_loja' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='2', description='', sourcetypeid='1', sourcetypename='CHAR')  NOT NULL SORTABLE,
+        regiao_loja = 'regiao_loja' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        codigo_fornecedor = 'codigo_fornecedor' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_fornecedor = 'nome_fornecedor' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='120', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        pais_origem = 'pais_origem' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        categoria_fornecedor = 'categoria_fornecedor' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='40', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        montadora = 'montadora' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        modelo_veiculo = 'modelo_veiculo' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        ano_modelo_inicio = 'ano_modelo_inicio' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        ano_modelo_fim = 'ano_modelo_fim' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        tipo_veiculo = 'tipo_veiculo' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        segmento_veiculo = 'segmento_veiculo' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        quantidade = 'quantidade' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT')  NOT NULL SORTABLE,
+        valor_unitario = 'valor_unitario' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        valor_desconto = 'valor_desconto' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        valor_bruto = 'valor_bruto' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        valor_liquido = 'valor_liquido' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        custo_total = 'custo_total' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        margem_valor = 'margem_valor' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE
+    );
+
+CREATE OR REPLACE TABLE vw_vendas_desnormalizada I18N us_pst (
+        numero_pedido:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Identifies the sales order associated with each record, grouping the items that belong to the same purchase.'),
+        numero_item:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Indicates the sequence or line number of the item within the sales order.'),
+        data_completa:localdate (notnull, sourcetypeid = '91', sourcetyperadix = '10', sourcetypesize = '10', description = 'Represents the full date of the transaction, providing the exact day on which the sale was recorded.'),
+        ano:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Shows the calendar year associated with the transaction date.'),
+        trimestre:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates the quarter of the year in which the transaction occurred.'),
+        mes:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates the numeric month linked to the transaction date.'),
+        nome_mes:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Provides the month name corresponding to the transaction date.'),
+        nome_dia_semana:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Provides the day name for the transaction date, helping identify the weekday on which the sale occurred.'),
+        is_fim_de_semana:boolean (notnull, sourcetypeid = '16', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates whether the transaction date falls on a weekend.'),
+        is_feriado:boolean (notnull, sourcetypeid = '16', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates whether the transaction date is a holiday.'),
+        sku:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Contains the product stock keeping unit used to uniquely reference the item sold.'),
+        nome_produto:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '150', description = 'Contains the commercial name of the product sold in the transaction.'),
+        categoria_produto:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Describes the broad product category, supporting commercial classification and portfolio analysis.'),
+        subcategoria_produto:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Provides a more detailed product classification within the main category.'),
+        marca_produto:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Identifies the brand associated with the product.'),
+        linha_produto:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Indicates the product line or family to which the item belongs.'),
+        unidade_medida:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '10', description = 'Specifies the unit of measure used for the sold product, such as quantity basis or packaging unit.'),
+        codigo_cliente:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Contains the customer code used to identify the buyer in commercial records.'),
+        nome_cliente:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '150', description = 'Contains the customer name recorded for the transaction.'),
+        tipo_pessoa:text (notnull, sourcetypeid = '1', sourcetyperadix = '10', sourcetypesize = '2', description = 'Indicates whether the customer is an individual or a legal entity.'),
+        segmento_cliente:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '40', description = 'Describes the customer segment, reflecting the commercial profile or market group assigned to the buyer.'),
+        cidade_cliente:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '80', description = 'Identifies the city associated with the customer.'),
+        estado_cliente:text (notnull, sourcetypeid = '1', sourcetyperadix = '10', sourcetypesize = '2', description = 'Identifies the state or province associated with the customer.'),
+        regiao_cliente:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Indicates the geographic region associated with the customer.'),
+        codigo_loja:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Contains the store code used to identify the selling location.'),
+        nome_loja:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '120', description = 'Contains the store name where the transaction was registered.'),
+        tipo_canal:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Describes the sales channel used for the transaction, such as physical or digital formats.'),
+        cidade_loja:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '80', description = 'Identifies the city where the store is located.'),
+        estado_loja:text (notnull, sourcetypeid = '1', sourcetyperadix = '10', sourcetypesize = '2', description = 'Identifies the state or province where the store is located.'),
+        regiao_loja:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Indicates the geographic region where the store operates.'),
+        codigo_fornecedor:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Contains the supplier code used to identify the source of the product.'),
+        nome_fornecedor:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '120', description = 'Contains the supplier name associated with the product supplied for the sale.'),
+        pais_origem:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Indicates the country of origin linked to the supplier or sourced product.'),
+        categoria_fornecedor:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '40', description = 'Describes the supplier category, supporting supplier segmentation and source classification.'),
+        montadora:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Identifies the vehicle manufacturer associated with the product or vehicle reference.'),
+        modelo_veiculo:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Contains the vehicle model referenced in the record.'),
+        ano_modelo_inicio:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Indicates the first model year applicable to the referenced vehicle.'),
+        ano_modelo_fim:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Indicates the last model year applicable to the referenced vehicle.'),
+        tipo_veiculo:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Describes the type of vehicle associated with the record, such as passenger, utility, or other market classifications.'),
+        segmento_veiculo:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Indicates the vehicle segment, reflecting its market positioning or classification.'),
+        quantidade:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Shows the quantity of items sold in the transaction.'),
+        valor_unitario:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '10', description = 'Represents the unit sale price applied to each item in the transaction.'),
+        valor_desconto:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '10', description = 'Shows the total discount amount applied to the item or line.'),
+        valor_bruto:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Represents the gross transaction value before discounts and deductions.'),
+        valor_liquido:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Represents the net transaction value after discounts and other applicable adjustments.'),
+        custo_total:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Shows the total cost associated with the sold item or line, supporting profitability evaluation.'),
+        margem_valor:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Represents the monetary margin generated by the sale, reflecting the difference between revenue and cost.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    DESCRIPTION = 'VIEW'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD vw_vendas_desnormalizada(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD numero_pedido (any) OPT ANY
+             ADD numero_item (any) OPT ANY
+             ADD data_completa (any) OPT ANY
+             ADD ano (any) OPT ANY
+             ADD trimestre (any) OPT ANY
+             ADD mes (any) OPT ANY
+             ADD nome_mes (any) OPT ANY
+             ADD nome_dia_semana (any) OPT ANY
+             ADD is_fim_de_semana (any) OPT ANY
+             ADD is_feriado (any) OPT ANY
+             ADD sku (any) OPT ANY
+             ADD nome_produto (any) OPT ANY
+             ADD categoria_produto (any) OPT ANY
+             ADD subcategoria_produto (any) OPT ANY
+             ADD marca_produto (any) OPT ANY
+             ADD linha_produto (any) OPT ANY
+             ADD unidade_medida (any) OPT ANY
+             ADD codigo_cliente (any) OPT ANY
+             ADD nome_cliente (any) OPT ANY
+             ADD tipo_pessoa (any) OPT ANY
+             ADD segmento_cliente (any) OPT ANY
+             ADD cidade_cliente (any) OPT ANY
+             ADD estado_cliente (any) OPT ANY
+             ADD regiao_cliente (any) OPT ANY
+             ADD codigo_loja (any) OPT ANY
+             ADD nome_loja (any) OPT ANY
+             ADD tipo_canal (any) OPT ANY
+             ADD cidade_loja (any) OPT ANY
+             ADD estado_loja (any) OPT ANY
+             ADD regiao_loja (any) OPT ANY
+             ADD codigo_fornecedor (any) OPT ANY
+             ADD nome_fornecedor (any) OPT ANY
+             ADD pais_origem (any) OPT ANY
+             ADD categoria_fornecedor (any) OPT ANY
+             ADD montadora (any) OPT ANY
+             ADD modelo_veiculo (any) OPT ANY
+             ADD ano_modelo_inicio (any) OPT ANY
+             ADD ano_modelo_fim (any) OPT ANY
+             ADD tipo_veiculo (any) OPT ANY
+             ADD segmento_veiculo (any) OPT ANY
+             ADD quantidade (any) OPT ANY
+             ADD valor_unitario (any) OPT ANY
+             ADD valor_desconto (any) OPT ANY
+             ADD valor_bruto (any) OPT ANY
+             ADD valor_liquido (any) OPT ANY
+             ADD custo_total (any) OPT ANY
+             ADD margem_valor (any) OPT ANY
+        )
+        OUTPUTLIST (ano, ano_modelo_fim, ano_modelo_inicio, categoria_fornecedor, categoria_produto, cidade_cliente, cidade_loja, codigo_cliente, codigo_fornecedor, codigo_loja, custo_total, data_completa, estado_cliente, estado_loja, is_feriado, is_fim_de_semana, linha_produto, marca_produto, margem_valor, mes, modelo_veiculo, montadora, nome_cliente, nome_dia_semana, nome_fornecedor, nome_loja, nome_mes, nome_produto, numero_item, numero_pedido, pais_origem, quantidade, regiao_cliente, regiao_loja, segmento_cliente, segmento_veiculo, sku, subcategoria_produto, tipo_canal, tipo_pessoa, tipo_veiculo, trimestre, unidade_medida, valor_bruto, valor_desconto, valor_liquido, valor_unitario
+        )
+        WRAPPER (jdbc vw_vendas_desnormalizada)
+    );
+

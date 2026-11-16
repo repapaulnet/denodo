@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dim_fornecedor_fato_vendas REFERENTIAL CONSTRAINT 
+FOLDER = '/1 - connectivity/2 - base views'
+    ENDPOINT fato_vendas dim_fornecedor PRINCIPAL (0,1)
+    ENDPOINT dim_fornecedor fato_vendas (0,*)
+    ADD MAPPING sk_fornecedor=sk_fornecedor;
+

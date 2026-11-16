@@ -1,0 +1,32 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE DATASOURCE JDBC ds_aftermarket
+    FOLDER = '/1 - connectivity/1 - data sources'
+    DRIVERCLASSNAME = 'org.mariadb.jdbc.Driver'
+    DATABASEURI = '${databases.aftermarket.folder.1 - connectivity.folder.1 - data sources.datasources.jdbc.ds_aftermarket.DATABASEURI}'
+    USERNAME = '${databases.aftermarket.folder.1 - connectivity.folder.1 - data sources.datasources.jdbc.ds_aftermarket.USERNAME}'
+    USERPASSWORD = '${databases.aftermarket.folder.1 - connectivity.folder.1 - data sources.datasources.jdbc.ds_aftermarket.USERPASSWORD}' ${databases.aftermarket.folder.1 - connectivity.folder.1 - data sources.datasources.jdbc.ds_aftermarket.USERPASSWORD.ENCRYPTED}
+    CLASSPATH = 'mariadb-2.7'
+    DATABASENAME = 'Generic'
+    DATABASEVERSION = ''
+    FETCHSIZE = 1000
+    VALIDATIONQUERY = ''
+    INITIALSIZE = 4
+    MAXIDLE = -1
+    MINIDLE = 0
+    MAXACTIVE = 20
+    EXHAUSTEDACTION = 1
+    TESTONBORROW = true
+    TESTONRETURN = false
+    TESTWHILEIDLE = false
+    TIMEBETWEENEVICTION = -1
+    NUMTESTPEREVICTION = 3
+    MINEVICTABLETIME = 1800000
+    POOLPREPAREDSTATEMENTS = false
+    MAXOPENPREPAREDSTATEMENTS = -1
+    PROPERTIES ('allowPublicKeyRetrieval'='true')
+    DATA_LOAD_CONFIGURATION (
+        BATCHINSERTSIZE = 200
+    )
+    PROCESSING_UNITS = 1
+    CPUS_PER_PROCESSING_UNIT = 1;
+

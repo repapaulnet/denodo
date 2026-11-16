@@ -1,0 +1,45 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dim_fornecedor
+    FOLDER = '/1 - connectivity/2 - base views'
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.dim_fornecedor.CATALOGNAME}' 
+    RELATIONNAME='dim_fornecedor' 
+    OUTPUTSCHEMA (
+        sk_fornecedor = 'sk_fornecedor' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE IS_AUTOINCREMENT,
+        codigo_fornecedor = 'codigo_fornecedor' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_fornecedor = 'nome_fornecedor' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='120', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        pais_origem = 'pais_origem' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        categoria_fornecedor = 'categoria_fornecedor' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='40', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        lead_time_dias = 'lead_time_dias' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_fornecedor' )
+    INDEX 'PRIMARY' OTHER UNIQUE PRIMARY ( 'sk_fornecedor' )
+    INDEX 'uk_dim_fornecedor_codigo' OTHER UNIQUE ( 'codigo_fornecedor' );
+
+CREATE OR REPLACE TABLE dim_fornecedor I18N us_pst (
+        sk_fornecedor:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Surrogate key that uniquely identifies each supplier record in the dimension.'),
+        codigo_fornecedor:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Business code used to identify the supplier in operational and analytical processes.'),
+        nome_fornecedor:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '120', description = 'Supplier name as recognized in the business, used for clear identification and reporting.'),
+        pais_origem:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Indicates the country where the supplier is based or originates from.'),
+        categoria_fornecedor:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '40', description = 'Describes the supplier category, reflecting its classification or commercial profile within the business context.'),
+        lead_time_dias:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Represents the supplier lead time measured in days, indicating the expected delivery or fulfillment duration.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_fornecedor' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dim_fornecedor(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD sk_fornecedor (any) OPT ANY
+             ADD codigo_fornecedor (any) OPT ANY
+             ADD nome_fornecedor (any) OPT ANY
+             ADD pais_origem (any) OPT ANY
+             ADD categoria_fornecedor (any) OPT ANY
+             ADD lead_time_dias (any) OPT ANY
+        )
+        OUTPUTLIST (categoria_fornecedor, codigo_fornecedor, lead_time_dias, nome_fornecedor, pais_origem, sk_fornecedor
+        )
+        WRAPPER (jdbc dim_fornecedor)
+    );
+

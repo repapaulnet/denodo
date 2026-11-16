@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE DATABASE aftermarket '';
+
+ALTER DATABASE aftermarket
+  CHARSET DEFAULT;
+

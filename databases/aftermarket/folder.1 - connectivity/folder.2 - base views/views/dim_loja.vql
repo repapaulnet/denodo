@@ -1,0 +1,51 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dim_loja
+    FOLDER = '/1 - connectivity/2 - base views'
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.dim_loja.CATALOGNAME}' 
+    RELATIONNAME='dim_loja' 
+    OUTPUTSCHEMA (
+        sk_loja = 'sk_loja' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE IS_AUTOINCREMENT,
+        codigo_loja = 'codigo_loja' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_loja = 'nome_loja' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='120', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        tipo_canal = 'tipo_canal' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        cidade = 'cidade' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='80', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        estado = 'estado' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='2', description='', sourcetypeid='1', sourcetypename='CHAR')  NOT NULL SORTABLE,
+        regiao = 'regiao' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        data_abertura = 'data_abertura' :'java.time.LocalDate' (OPT) (sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='91', sourcetypename='DATE')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_loja' )
+    INDEX 'PRIMARY' OTHER UNIQUE PRIMARY ( 'sk_loja' )
+    INDEX 'uk_dim_loja_codigo' OTHER UNIQUE ( 'codigo_loja' );
+
+CREATE OR REPLACE TABLE dim_loja I18N us_pst (
+        sk_loja:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Surrogate key that uniquely identifies each store record in the dimension.'),
+        codigo_loja:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Business code used to identify the store across operational and analytical processes.'),
+        nome_loja:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '120', description = 'Official name of the store, as recognized in the business context.'),
+        tipo_canal:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Indicates the sales or distribution channel category associated with the store.'),
+        cidade:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '80', description = 'Name of the city where the store is located.'),
+        estado:text (notnull, sourcetypeid = '1', sourcetyperadix = '10', sourcetypesize = '2', description = 'State or province where the store operates, used to classify its geographic location.'),
+        regiao:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Broader geographic region associated with the store location.'),
+        data_abertura:localdate (notnull, sourcetypeid = '91', sourcetyperadix = '10', sourcetypesize = '10', description = 'Date when the store officially opened and began operations.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_loja' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dim_loja(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD sk_loja (any) OPT ANY
+             ADD codigo_loja (any) OPT ANY
+             ADD nome_loja (any) OPT ANY
+             ADD tipo_canal (any) OPT ANY
+             ADD cidade (any) OPT ANY
+             ADD estado (any) OPT ANY
+             ADD regiao (any) OPT ANY
+             ADD data_abertura (any) OPT ANY
+        )
+        OUTPUTLIST (cidade, codigo_loja, data_abertura, estado, nome_loja, regiao, sk_loja, tipo_canal
+        )
+        WRAPPER (jdbc dim_loja)
+    );
+

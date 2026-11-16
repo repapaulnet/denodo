@@ -1,0 +1,60 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dim_produto
+    FOLDER = '/1 - connectivity/2 - base views'
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.dim_produto.CATALOGNAME}' 
+    RELATIONNAME='dim_produto' 
+    OUTPUTSCHEMA (
+        sk_produto = 'sk_produto' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE IS_AUTOINCREMENT,
+        sku = 'sku' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_produto = 'nome_produto' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='150', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        categoria = 'categoria' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        subcategoria = 'subcategoria' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        marca = 'marca' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        linha_produto = 'linha_produto' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        unidade_medida = 'unidade_medida' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        preco_lista = 'preco_lista' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        custo_padrao = 'custo_padrao' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        ativo = 'ativo' :'java.lang.Boolean' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='16', sourcetypename='BOOLEAN')  NOT NULL NOT SORTABLE
+    )
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_produto' )
+    INDEX 'PRIMARY' OTHER UNIQUE PRIMARY ( 'sk_produto' )
+    INDEX 'uk_dim_produto_sku' OTHER UNIQUE ( 'sku' );
+
+CREATE OR REPLACE TABLE dim_produto I18N us_pst (
+        sk_produto:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Surrogate identifier for each product record, used to distinguish products uniquely within the product dimension.'),
+        sku:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Business code that identifies the product in operational and analytical processes, typically used as the product stock keeping unit.'),
+        nome_produto:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '150', description = 'Descriptive name of the product, providing the commercial or catalog name used to recognize and present the item.'),
+        categoria:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Top-level product classification that groups items into broad commercial categories for segmentation and reporting.'),
+        subcategoria:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'More detailed product classification within a broader category, helping to distinguish closely related product groups.'),
+        marca:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Brand associated with the product, indicating the manufacturer, label, or commercial identity under which the item is marketed.'),
+        linha_produto:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Product line or collection to which the item belongs, representing a commercial grouping based on assortment or positioning.'),
+        unidade_medida:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '10', description = 'Measurement unit used to describe how the product is sold, managed, or quantified, such as unit, kilogram, or liter.'),
+        preco_lista:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '10', description = 'Standard list price assigned to the product, reflecting its reference selling price before discounts or other commercial adjustments.'),
+        custo_padrao:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '10', description = 'Standard cost assigned to the product, used as a reference value for cost analysis, pricing, and margin evaluation.'),
+        ativo:boolean (notnull, sourcetypeid = '16', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates whether the product is currently active and available for business use within the product catalog.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_produto' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dim_produto(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD sk_produto (any) OPT ANY
+             ADD sku (any) OPT ANY
+             ADD nome_produto (any) OPT ANY
+             ADD categoria (any) OPT ANY
+             ADD subcategoria (any) OPT ANY
+             ADD marca (any) OPT ANY
+             ADD linha_produto (any) OPT ANY
+             ADD unidade_medida (any) OPT ANY
+             ADD preco_lista (any) OPT ANY
+             ADD custo_padrao (any) OPT ANY
+             ADD ativo (any) OPT ANY
+        )
+        OUTPUTLIST (ativo, categoria, custo_padrao, linha_produto, marca, nome_produto, preco_lista, sk_produto, sku, subcategoria, unidade_medida
+        )
+        WRAPPER (jdbc dim_produto)
+    );
+

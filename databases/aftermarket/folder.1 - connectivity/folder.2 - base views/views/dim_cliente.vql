@@ -1,0 +1,54 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dim_cliente
+    FOLDER = '/1 - connectivity/2 - base views'
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.dim_cliente.CATALOGNAME}' 
+    RELATIONNAME='dim_cliente' 
+    OUTPUTSCHEMA (
+        sk_cliente = 'sk_cliente' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE IS_AUTOINCREMENT,
+        codigo_cliente = 'codigo_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        nome_cliente = 'nome_cliente' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='150', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        tipo_pessoa = 'tipo_pessoa' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='2', description='', sourcetypeid='1', sourcetypename='CHAR')  NOT NULL SORTABLE,
+        segmento = 'segmento' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='40', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        cidade = 'cidade' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='80', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        estado = 'estado' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='2', description='', sourcetypeid='1', sourcetypename='CHAR')  NOT NULL SORTABLE,
+        regiao = 'regiao' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        data_cadastro = 'data_cadastro' :'java.time.LocalDate' (OPT) (sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='91', sourcetypename='DATE')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_cliente' )
+    INDEX 'PRIMARY' OTHER UNIQUE PRIMARY ( 'sk_cliente' )
+    INDEX 'uk_dim_cliente_codigo' OTHER UNIQUE ( 'codigo_cliente' );
+
+CREATE OR REPLACE TABLE dim_cliente I18N us_pst (
+        sk_cliente:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Surrogate identifier for each customer record in the dimension, used to uniquely distinguish customer entries within the dataset.'),
+        codigo_cliente:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Business code that identifies the customer in operational or reference systems, supporting consistent customer recognition across records and processes.'),
+        nome_cliente:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '150', description = 'Displays the customer’s name or legal business name, providing the primary descriptive label for the customer entity.'),
+        tipo_pessoa:text (notnull, sourcetypeid = '1', sourcetyperadix = '10', sourcetypesize = '2', description = 'Indicates the customer’s person type, such as individual or company, helping classify the customer according to their legal or fiscal nature.'),
+        segmento:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '40', description = 'Represents the customer segment or market classification, grouping customers by shared commercial or strategic characteristics.'),
+        cidade:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '80', description = 'Identifies the city associated with the customer, reflecting the customer’s geographic location at the city level.'),
+        estado:text (notnull, sourcetypeid = '1', sourcetyperadix = '10', sourcetypesize = '2', description = 'Indicates the state or federal region linked to the customer, supporting geographic grouping at a broader regional level.'),
+        regiao:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Specifies the higher-level geographic region associated with the customer, enabling regional consolidation and analysis.'),
+        data_cadastro:localdate (notnull, sourcetypeid = '91', sourcetyperadix = '10', sourcetypesize = '10', description = 'Shows the date when the customer was registered or added to the system, marking the beginning of the customer’s presence in the dimension.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_cliente' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dim_cliente(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD sk_cliente (any) OPT ANY
+             ADD codigo_cliente (any) OPT ANY
+             ADD nome_cliente (any) OPT ANY
+             ADD tipo_pessoa (any) OPT ANY
+             ADD segmento (any) OPT ANY
+             ADD cidade (any) OPT ANY
+             ADD estado (any) OPT ANY
+             ADD regiao (any) OPT ANY
+             ADD data_cadastro (any) OPT ANY
+        )
+        OUTPUTLIST (cidade, codigo_cliente, data_cadastro, estado, nome_cliente, regiao, segmento, sk_cliente, tipo_pessoa
+        )
+        WRAPPER (jdbc dim_cliente)
+    );
+

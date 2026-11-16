@@ -1,0 +1,50 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dim_veiculo
+    FOLDER = '/1 - connectivity/2 - base views'
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.dim_veiculo.CATALOGNAME}' 
+    RELATIONNAME='dim_veiculo' 
+    OUTPUTSCHEMA (
+        sk_veiculo = 'sk_veiculo' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE IS_AUTOINCREMENT,
+        montadora = 'montadora' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        modelo = 'modelo' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='60', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        ano_modelo_inicio = 'ano_modelo_inicio' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        ano_modelo_fim = 'ano_modelo_fim' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        tipo_veiculo = 'tipo_veiculo' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        segmento_veiculo = 'segmento_veiculo' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='30', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_veiculo' )
+    INDEX 'PRIMARY' OTHER UNIQUE PRIMARY ( 'sk_veiculo' )
+    INDEX 'uk_dim_veiculo' OTHER UNIQUE ( 'montadora' , 'modelo' , 'ano_modelo_inicio' );
+
+CREATE OR REPLACE TABLE dim_veiculo I18N us_pst (
+        sk_veiculo:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Surrogate key that uniquely identifies each vehicle record in the dimension.'),
+        montadora:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Identifies the vehicle manufacturer or brand associated with the model.'),
+        modelo:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '60', description = 'Specifies the vehicle model name, representing the particular version within a manufacturer lineup.'),
+        ano_modelo_inicio:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Indicates the first model year applicable to the vehicle configuration.'),
+        ano_modelo_fim:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Indicates the last model year applicable to the vehicle configuration.'),
+        tipo_veiculo:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Describes the general type of vehicle, such as the broad category it belongs to.'),
+        segmento_veiculo:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '30', description = 'Describes the market segment or positioning of the vehicle within the product lineup.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_veiculo' )
+    CACHE OFF
+    BATCHSIZEINCACHE DEFAULT
+    TIMETOLIVEINCACHE NOEXPIRE
+    ONSCHEMACHANGE RECREATE INCREMENTAL_LOAD
+    ADD SEARCHMETHOD dim_veiculo(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD sk_veiculo (any) OPT ANY
+             ADD montadora (any) OPT ANY
+             ADD modelo (any) OPT ANY
+             ADD ano_modelo_inicio (any) OPT ANY
+             ADD ano_modelo_fim (any) OPT ANY
+             ADD tipo_veiculo (any) OPT ANY
+             ADD segmento_veiculo (any) OPT ANY
+        )
+        OUTPUTLIST (ano_modelo_fim, ano_modelo_inicio, modelo, montadora, segmento_veiculo, sk_veiculo, tipo_veiculo
+        )
+        WRAPPER (jdbc dim_veiculo)
+    );
+

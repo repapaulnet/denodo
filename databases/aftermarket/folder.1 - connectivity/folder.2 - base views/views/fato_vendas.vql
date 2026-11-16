@@ -1,0 +1,92 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC fato_vendas
+    FOLDER = '/1 - connectivity/2 - base views'
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.fato_vendas.CATALOGNAME}' 
+    RELATIONNAME='fato_vendas' 
+    OUTPUTSCHEMA (
+        sk_venda = 'sk_venda' :'java.lang.Long' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='-5', sourcetypename='BIGINT UNSIGNED')  NOT NULL NOT SORTABLE IS_AUTOINCREMENT,
+        numero_pedido = 'numero_pedido' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        numero_item = 'numero_item' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        sk_data = 'sk_data' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE,
+        sk_produto = 'sk_produto' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE,
+        sk_cliente = 'sk_cliente' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE,
+        sk_loja = 'sk_loja' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE,
+        sk_fornecedor = 'sk_fornecedor' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE,
+        sk_veiculo = 'sk_veiculo' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE,
+        quantidade = 'quantidade' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT')  NOT NULL SORTABLE,
+        valor_unitario = 'valor_unitario' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        valor_desconto = 'valor_desconto' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        valor_bruto = 'valor_bruto' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        valor_liquido = 'valor_liquido' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        custo_total = 'custo_total' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE,
+        margem_valor = 'margem_valor' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='2', sourcetyperadix='10', sourcetypesize='12', description='', sourcetypeid='3', sourcetypename='DECIMAL')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_venda' )
+    CONSTRAINT 'fk_fato_cliente' FOREIGN KEY ( 'sk_cliente' ) 
+    REFERENCES '${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.fato_vendas.CATALOGNAME}'.'dim_cliente'( 'sk_cliente' )  ON UPDATE RESTRICT  ON DELETE RESTRICT NOT DEFERRABLE 
+    CONSTRAINT 'fk_fato_data' FOREIGN KEY ( 'sk_data' ) 
+    REFERENCES '${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.fato_vendas.CATALOGNAME}'.'dim_data'( 'sk_data' )  ON UPDATE RESTRICT  ON DELETE RESTRICT NOT DEFERRABLE 
+    CONSTRAINT 'fk_fato_fornecedor' FOREIGN KEY ( 'sk_fornecedor' ) 
+    REFERENCES '${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.fato_vendas.CATALOGNAME}'.'dim_fornecedor'( 'sk_fornecedor' )  ON UPDATE RESTRICT  ON DELETE RESTRICT NOT DEFERRABLE 
+    CONSTRAINT 'fk_fato_loja' FOREIGN KEY ( 'sk_loja' ) 
+    REFERENCES '${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.fato_vendas.CATALOGNAME}'.'dim_loja'( 'sk_loja' )  ON UPDATE RESTRICT  ON DELETE RESTRICT NOT DEFERRABLE 
+    CONSTRAINT 'fk_fato_produto' FOREIGN KEY ( 'sk_produto' ) 
+    REFERENCES '${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.fato_vendas.CATALOGNAME}'.'dim_produto'( 'sk_produto' )  ON UPDATE RESTRICT  ON DELETE RESTRICT NOT DEFERRABLE 
+    CONSTRAINT 'fk_fato_veiculo' FOREIGN KEY ( 'sk_veiculo' ) 
+    REFERENCES '${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.fato_vendas.CATALOGNAME}'.'dim_veiculo'( 'sk_veiculo' )  ON UPDATE RESTRICT  ON DELETE RESTRICT NOT DEFERRABLE 
+    INDEX 'PRIMARY' OTHER UNIQUE PRIMARY ( 'sk_venda' )
+    INDEX 'idx_fato_cliente' OTHER ( 'sk_cliente' )
+    INDEX 'idx_fato_data' OTHER ( 'sk_data' )
+    INDEX 'idx_fato_fornecedor' OTHER ( 'sk_fornecedor' )
+    INDEX 'idx_fato_loja' OTHER ( 'sk_loja' )
+    INDEX 'idx_fato_produto' OTHER ( 'sk_produto' )
+    INDEX 'idx_fato_veiculo' OTHER ( 'sk_veiculo' );
+
+CREATE OR REPLACE TABLE fato_vendas I18N us_pst (
+        sk_venda:long (notnull, autoincrement, sourcetypeid = '-5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '20', description = 'Unique identifier for each sales transaction record, used to distinguish and track each sale within the fact table.'),
+        numero_pedido:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Business order number associated with the sale, identifying the commercial order that originated the transaction.'),
+        numero_item:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Item sequence number within the order, indicating the specific line item of the sale.'),
+        sk_data:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Reference to the date dimension for the sale, linking the transaction to its corresponding calendar date.'),
+        sk_produto:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Reference to the product dimension, identifying which product was sold in the transaction.'),
+        sk_cliente:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Reference to the customer dimension, identifying the customer associated with the sale.'),
+        sk_loja:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Reference to the store dimension, identifying the store where the sale took place.'),
+        sk_fornecedor:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Reference to the supplier dimension, identifying the supplier related to the sold item or transaction context.'),
+        sk_veiculo:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Reference to the vehicle dimension, identifying the vehicle associated with the sale.'),
+        quantidade:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Quantity of units sold in the transaction line, representing the number of items involved in the sale.'),
+        valor_unitario:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '10', description = 'Unit selling price applied to each item in the transaction, reflecting the price before totals and adjustments.'),
+        valor_desconto:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '10', description = 'Discount amount applied to the sale line, representing the reduction granted from the original selling value.'),
+        valor_bruto:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Gross sales amount for the transaction line, reflecting the total value before discounts and other deductions.'),
+        valor_liquido:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Net sales amount for the transaction line after discounts, representing the effective revenue recorded from the sale.'),
+        custo_total:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Total cost attributed to the sale line, capturing the overall cost basis associated with the transaction.'),
+        margem_valor:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '2', sourcetypesize = '12', description = 'Monetary profit margin for the sale line, representing the difference between revenue and total cost.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_venda' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD fato_vendas(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD sk_venda (any) OPT ANY
+             ADD numero_pedido (any) OPT ANY
+             ADD numero_item (any) OPT ANY
+             ADD sk_data (any) OPT ANY
+             ADD sk_produto (any) OPT ANY
+             ADD sk_cliente (any) OPT ANY
+             ADD sk_loja (any) OPT ANY
+             ADD sk_fornecedor (any) OPT ANY
+             ADD sk_veiculo (any) OPT ANY
+             ADD quantidade (any) OPT ANY
+             ADD valor_unitario (any) OPT ANY
+             ADD valor_desconto (any) OPT ANY
+             ADD valor_bruto (any) OPT ANY
+             ADD valor_liquido (any) OPT ANY
+             ADD custo_total (any) OPT ANY
+             ADD margem_valor (any) OPT ANY
+        )
+        OUTPUTLIST (custo_total, margem_valor, numero_item, numero_pedido, quantidade, sk_cliente, sk_data, sk_fornecedor, sk_loja, sk_produto, sk_veiculo, sk_venda, valor_bruto, valor_desconto, valor_liquido, valor_unitario
+        )
+        WRAPPER (jdbc fato_vendas)
+    );
+

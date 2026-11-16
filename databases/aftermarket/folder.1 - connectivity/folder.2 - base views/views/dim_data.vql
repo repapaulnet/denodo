@@ -1,0 +1,63 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dim_data
+    FOLDER = '/1 - connectivity/2 - base views'
+    DATASOURCENAME=ds_aftermarket
+    CATALOGNAME='${databases.aftermarket.folder.1 - connectivity.folder.2 - base views.views.jdbc.dim_data.CATALOGNAME}' 
+    RELATIONNAME='dim_data' 
+    OUTPUTSCHEMA (
+        sk_data = 'sk_data' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='4', sourcetypename='INT UNSIGNED')  NOT NULL NOT SORTABLE IS_AUTOINCREMENT,
+        data_completa = 'data_completa' :'java.time.LocalDate' (OPT) (sourcetyperadix='10', sourcetypesize='10', description='', sourcetypeid='91', sourcetypename='DATE')  NOT NULL SORTABLE,
+        ano = 'ano' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', description='', sourcetypeid='5', sourcetypename='SMALLINT')  NOT NULL SORTABLE,
+        trimestre = 'trimestre' :'java.lang.Byte' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='-6', sourcetypename='TINYINT')  NOT NULL SORTABLE,
+        mes = 'mes' :'java.lang.Byte' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='-6', sourcetypename='TINYINT')  NOT NULL SORTABLE,
+        nome_mes = 'nome_mes' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        dia = 'dia' :'java.lang.Byte' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='-6', sourcetypename='TINYINT')  NOT NULL SORTABLE,
+        dia_da_semana = 'dia_da_semana' :'java.lang.Byte' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='-6', sourcetypename='TINYINT')  NOT NULL SORTABLE,
+        nome_dia_semana = 'nome_dia_semana' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', description='', sourcetypeid='12', sourcetypename='VARCHAR')  NOT NULL SORTABLE,
+        semana_ano = 'semana_ano' :'java.lang.Byte' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='-6', sourcetypename='TINYINT')  NOT NULL SORTABLE,
+        is_fim_de_semana = 'is_fim_de_semana' :'java.lang.Boolean' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='16', sourcetypename='BOOLEAN')  NOT NULL NOT SORTABLE,
+        is_feriado = 'is_feriado' :'java.lang.Boolean' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', description='', sourcetypeid='16', sourcetypename='BOOLEAN')  NOT NULL NOT SORTABLE
+    )
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_data' )
+    INDEX 'PRIMARY' OTHER UNIQUE PRIMARY ( 'sk_data' )
+    INDEX 'uk_dim_data_data' OTHER UNIQUE ( 'data_completa' );
+
+CREATE OR REPLACE TABLE dim_data I18N us_pst (
+        sk_data:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'Surrogate key that uniquely identifies each date record in the calendar dimension.'),
+        data_completa:localdate (notnull, sourcetypeid = '91', sourcetyperadix = '10', sourcetypesize = '10', description = 'Represents the complete calendar date for the record, serving as the full reference point for the day.'),
+        ano:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5', description = 'Indicates the year associated with the date.'),
+        trimestre:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates the quarter of the year corresponding to the date.'),
+        mes:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates the numeric month associated with the date.'),
+        nome_mes:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Contains the name of the month for the date, providing a human-readable monthly reference.'),
+        dia:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates the day of the month for the date.'),
+        dia_da_semana:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates the numeric position of the day within the week.'),
+        nome_dia_semana:text (notnull, sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20', description = 'Contains the name of the weekday for the date, offering a human-readable weekly reference.'),
+        semana_ano:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates the week number within the year for the date.'),
+        is_fim_de_semana:boolean (notnull, sourcetypeid = '16', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates whether the date falls on a weekend.'),
+        is_feriado:boolean (notnull, sourcetypeid = '16', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3', description = 'Indicates whether the date is a public holiday or recognized non-working day.')
+    )
+    FOLDER = '/1 - connectivity/2 - base views'
+    CONSTRAINT 'PRIMARY' PRIMARY KEY ( 'sk_data' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dim_data(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD sk_data (any) OPT ANY
+             ADD data_completa (any) OPT ANY
+             ADD ano (any) OPT ANY
+             ADD trimestre (any) OPT ANY
+             ADD mes (any) OPT ANY
+             ADD nome_mes (any) OPT ANY
+             ADD dia (any) OPT ANY
+             ADD dia_da_semana (any) OPT ANY
+             ADD nome_dia_semana (any) OPT ANY
+             ADD semana_ano (any) OPT ANY
+             ADD is_fim_de_semana (any) OPT ANY
+             ADD is_feriado (any) OPT ANY
+        )
+        OUTPUTLIST (ano, data_completa, dia, dia_da_semana, is_feriado, is_fim_de_semana, mes, nome_dia_semana, nome_mes, semana_ano, sk_data, trimestre
+        )
+        WRAPPER (jdbc dim_data)
+    );
+
